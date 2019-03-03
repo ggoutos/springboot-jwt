@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.security;
 
 import com.example.demo.security.jwt.JwtConfigurer;
 import com.example.demo.security.jwt.JwtTokenProvider;
@@ -30,10 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .httpBasic().disable()
             .csrf().disable()
+
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeRequests()
                 .antMatchers("/auth/signin").permitAll()
+                .antMatchers("/units/**").permitAll()
+                .antMatchers("/reviews/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/vehicles/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/vehicles/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/v1/vehicles/**").permitAll()
@@ -41,6 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .apply(new JwtConfigurer(jwtTokenProvider));
         //@formatter:on
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 
 

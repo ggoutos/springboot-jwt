@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,8 +34,13 @@ public class User implements UserDetails {
     @NotEmpty
     private String password;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, targetEntity = Review.class)
+    @JsonIgnore
+    private List<Review> reviews;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
+    @JsonIgnore
     private List<String> roles = new ArrayList<>();
 
     @Override

@@ -1,7 +1,10 @@
-package com.example.demo.web;
+package com.example.demo.controller;
 
 import com.example.demo.domain.Vehicle;
 import com.example.demo.repository.VehicleRepository;
+import com.example.demo.model.VehicleForm;
+import com.example.demo.exceptions.VehicleNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,6 +19,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/v1/vehicles")
 public class VehicleController {
 
+    @Autowired
     private VehicleRepository vehicles;
 
     public VehicleController(VehicleRepository vehicles) {
