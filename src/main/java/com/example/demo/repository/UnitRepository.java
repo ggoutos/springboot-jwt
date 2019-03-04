@@ -12,4 +12,6 @@ public interface UnitRepository extends JpaRepository<Unit, Long> {
 
     Optional<List<Unit>> findAllByTitleAndRegionOrderByScoreAsc(String title, String region);
 
+    Optional<Unit> findById(Long id);
+
 }

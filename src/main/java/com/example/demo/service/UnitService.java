@@ -22,4 +22,8 @@ public class UnitService {
         return unitRepository.findAll();
     }
 
+    public Optional<Unit> findAllById(Long id) {
+        return unitRepository.findById(id);
+    }
+
 }

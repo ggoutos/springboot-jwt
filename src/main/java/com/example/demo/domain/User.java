@@ -29,14 +29,15 @@ public class User implements UserDetails {
     Long id;
 
     @NotEmpty
+    @Column(unique=true)
     private String username;
 
     @NotEmpty
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, targetEntity = Review.class)
+    /*@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, targetEntity = Review.class)
     @JsonIgnore
-    private List<Review> reviews;
+    private List<Review> reviews;*/
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
