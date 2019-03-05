@@ -10,8 +10,8 @@ import java.util.List;
 public class Unit {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
     @Column(length = 120)
@@ -33,7 +33,7 @@ public class Unit {
     private double price;
 
     @Column
-    private int score;
+    private double score;
 
     @OneToMany(mappedBy = "unit", cascade = CascadeType.REMOVE, targetEntity = Review.class, fetch = FetchType.EAGER)
     @JsonIgnore
@@ -110,11 +110,11 @@ public class Unit {
         this.price = price;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 

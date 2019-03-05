@@ -17,8 +17,9 @@ import static java.util.stream.Collectors.toList;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private long id;
 
     @NotEmpty
     @Column(unique = true)
@@ -69,11 +70,11 @@ public class User implements UserDetails {
         return true;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

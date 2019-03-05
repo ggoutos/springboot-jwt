@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.Review;
+import com.example.demo.domain.Unit;
 import com.example.demo.model.ReviewForm;
 import com.example.demo.model.ReviewModel;
 import com.example.demo.repository.UserRepository;
@@ -18,11 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
 
 import static com.example.demo.utils.Messages.*;
-import static java.util.OptionalInt.of;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
@@ -49,11 +47,17 @@ public class ReviewController {
                                             @AuthenticationPrincipal UserDetails userDetails) {
 
         Review newReview = reviewFormToReview(form, userDetails);
-        ReviewModel saved = new ReviewModel(reviewService.save(newReview));
+        Review saved = reviewService.save(newReview);
 
         //TODO: update score of unit
+        Unit unit = unitService.findById(saved.getUnit().getId()).get();
+        List<Review> reviews = unit.getReviews();
+        double newScore = reviews.stream().mapToInt(Review::getScore).sum() / (double) reviews.size();
+        unit.setScore(newScore);
+        unitService.save(unit);
 
-        return ok(saved);
+        ReviewModel result = new ReviewModel(saved);
+        return ok(result);
     }
 
     private Review reviewFormToReview(ReviewForm form, UserDetails userDetails) {
