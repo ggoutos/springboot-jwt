@@ -18,8 +18,6 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.demo.utils.Messages.SCORE_INT_MESSAGE;
-
 @Component
 public class JwtTokenProvider {
 

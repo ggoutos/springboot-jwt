@@ -26,11 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //@formatter:off
         http
             .httpBasic().disable()
             .csrf().disable()
-
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeRequests()
@@ -43,10 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
             .and()
             .apply(new JwtConfigurer(jwtTokenProvider));
-        //@formatter:on
 
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
     }
 
 

@@ -1,14 +1,15 @@
 package com.example.demo.domain;
 
-import com.example.demo.model.ReviewModel;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "reviews")
-public class Review {
+public class Review implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +27,7 @@ public class Review {
     private User user;
 
     @ManyToOne(optional = false)
+    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "unit_id", referencedColumnName = "id")
     private Unit unit;
 
@@ -80,5 +82,20 @@ public class Review {
         this.unit = unit;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Review)) return false;
+        Review review = (Review) o;
+        return getId() == review.getId() &&
+                getScore() == review.getScore() &&
+                Objects.equals(getComment(), review.getComment()) &&
+                Objects.equals(getUser(), review.getUser()) &&
+                Objects.equals(getUnit(), review.getUnit());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getScore(), getComment(), getUser(), getUnit());
+    }
 }

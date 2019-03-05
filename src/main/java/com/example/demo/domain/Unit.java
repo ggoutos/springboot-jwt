@@ -1,18 +1,21 @@
 package com.example.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "units")
-public class Unit {
-
+public class Unit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    Long id;
+    private long id;
 
     @Column(length = 120)
     private String image;
@@ -36,13 +39,14 @@ public class Unit {
     private double score;
 
     @OneToMany(mappedBy = "unit", cascade = CascadeType.REMOVE, targetEntity = Review.class, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JsonIgnore
     private List<Review> reviews;
 
     public Unit() {
     }
 
-    public Unit(Long id, String image, String title, String region, String description, String cancellationPolicy, double price, int score, List<Review> reviews) {
+    public Unit(long id, String image, String title, String region, String description, String cancellationPolicy, double price, int score, List<Review> reviews) {
         this.id = id;
         this.image = image;
         this.title = title;
@@ -54,11 +58,11 @@ public class Unit {
         this.reviews = reviews;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -124,6 +128,27 @@ public class Unit {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Unit)) return false;
+        Unit unit = (Unit) o;
+        return getId() == unit.getId() &&
+                Double.compare(unit.getPrice(), getPrice()) == 0 &&
+                Double.compare(unit.getScore(), getScore()) == 0 &&
+                Objects.equals(getImage(), unit.getImage()) &&
+                Objects.equals(getTitle(), unit.getTitle()) &&
+                Objects.equals(getRegion(), unit.getRegion()) &&
+                Objects.equals(getDescription(), unit.getDescription()) &&
+                Objects.equals(getCancellationPolicy(), unit.getCancellationPolicy()) &&
+                Objects.equals(getReviews(), unit.getReviews());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getImage(), getTitle(), getRegion(), getDescription(), getCancellationPolicy(), getPrice(), getScore(), getReviews());
     }
 
 }
