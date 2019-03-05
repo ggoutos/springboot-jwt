@@ -1,6 +1,10 @@
 package com.example.demo.domain;
 
+import com.example.demo.model.ReviewModel;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "reviews")
@@ -75,10 +79,6 @@ public class Review {
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
-
-
-
-
 
 
 }

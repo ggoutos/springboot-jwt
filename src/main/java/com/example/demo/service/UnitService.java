@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.domain.Unit;
 import com.example.demo.repository.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,16 +16,15 @@ public class UnitService {
     @Autowired
     UnitRepository unitRepository;
 
-    public Optional<List<Unit>> findAllByTitleAndRegionOrderByScoreAsc(String title, String region) {
-        return unitRepository.findAllByTitleAndRegionOrderByScoreAsc(title, region);
+    public Slice<Unit> findAllByTitleAndRegion(String title, String region, Pageable pageable) {
+        return unitRepository.findAllByTitleAndRegion(title, region, pageable);
     }
 
     public List<Unit> findAll() {
         return unitRepository.findAll();
     }
 
-    public Optional<Unit> findAllById(Long id) {
-        return unitRepository.findById(id);
+    public Optional<Unit> findById(Long unit_id) {
+        return unitRepository.findById(unit_id);
     }
-
 }

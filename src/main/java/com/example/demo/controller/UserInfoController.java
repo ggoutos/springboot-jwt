@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController()
-public class UserinfoController {
+public class UserInfoController {
 
     @GetMapping("/me")
     public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails){
