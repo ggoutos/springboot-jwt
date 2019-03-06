@@ -33,11 +33,11 @@ public class UnitService {
         return unitRepository.save(unit);
     }
 
-    public Unit updateScoreById(Long id) {
-        Unit unit = this.findById(id).get();
+    public Unit updateScoreByReview(Review review) {
+        Unit unit = review.getUnit();
         List<Review> reviews = unit.getReviews();
         double newScore = reviews.stream().mapToInt(Review::getScore).sum() / (double) reviews.size();
         unit.setScore(newScore);
-        return this.save(unit);
+        return unitRepository.save(unit);
     }
 }

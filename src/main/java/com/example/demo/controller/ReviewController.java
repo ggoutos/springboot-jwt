@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.Review;
 import com.example.demo.domain.Unit;
+import com.example.demo.domain.User;
 import com.example.demo.model.ReviewForm;
 import com.example.demo.model.ReviewModel;
 import com.example.demo.repository.UserRepository;
@@ -19,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.demo.utils.Messages.*;
 import static org.springframework.http.ResponseEntity.ok;
@@ -49,7 +51,7 @@ public class ReviewController {
         Review newReview = reviewFormToReview(form, userDetails);
         Review saved = reviewService.save(newReview);
 
-        Unit updatedUnit = unitService.updateScoreById(form.getUnit_id());
+        Unit updatedUnit = unitService.updateScoreByReview(saved);
         saved.setUnit(updatedUnit);
 
         ReviewModel result = new ReviewModel(saved);
@@ -70,8 +72,15 @@ public class ReviewController {
         newReview.setUnit(unitService.findById(form.getUnit_id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, NO_UNITS_MESSAGE)));
 
-        newReview.setUser(userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, NO_USER_MESSAGE)));
+        //update previous review of the user for the specific unit
+        List<Review> reviews = newReview.getUnit().getReviews();
+        for (Review previous : reviews ) {
+            if (previous.getUser().getUsername().equals(userDetails.getUsername())){
+                newReview.setId(previous.getId());
+            }
+        }
+
+        newReview.setUser((User) userDetails);
 
         return newReview;
     }

@@ -1,6 +1,8 @@
 package com.example.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,21 +30,24 @@ public class User implements UserDetails {
     @NotEmpty
     private String password;
 
-    /*@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, targetEntity = Review.class)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, targetEntity = Review.class, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JsonIgnore
-    private List<Review> reviews;*/
+    private List<Review> reviews;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JsonIgnore
     private List<String> roles = new ArrayList<>();
 
     public User() {
     }
 
-    public User(@NotEmpty String username, @NotEmpty String password, List<String> roles) {
+    public User(@NotEmpty String username, @NotEmpty String password, List<String> roles, List<Review> reviews) {
         this.username = username;
         this.password = password;
         this.roles = roles;
+        this.reviews = reviews;
     }
 
     @Override
@@ -102,6 +107,14 @@ public class User implements UserDetails {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
 
