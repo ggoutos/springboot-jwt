@@ -25,6 +25,7 @@ public class ReviewModel {
         this.score = review.getScore();
         this.username = review.getUser().getUsername();
         this.unit = review.getUnit();
+        unit.updateScore();
     }
 
     public Long getId() {

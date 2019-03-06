@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.Review;
 import com.example.demo.domain.Unit;
 import com.example.demo.repository.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,13 @@ public class UnitService {
 
     public Unit save(Unit unit) {
         return unitRepository.save(unit);
+    }
+
+    public Unit updateScoreById(Long id) {
+        Unit unit = this.findById(id).get();
+        List<Review> reviews = unit.getReviews();
+        double newScore = reviews.stream().mapToInt(Review::getScore).sum() / (double) reviews.size();
+        unit.setScore(newScore);
+        return this.save(unit);
     }
 }

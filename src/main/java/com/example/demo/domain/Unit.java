@@ -6,6 +6,8 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Objects;
 
@@ -128,6 +130,16 @@ public class Unit implements Serializable {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public void updateScore() {
+        this.score = setPrecision(getScore(), 2);
+    }
+
+    public double setPrecision(double value, int precision) {
+        return BigDecimal.valueOf(value)
+                .setScale(precision, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 
     @Override

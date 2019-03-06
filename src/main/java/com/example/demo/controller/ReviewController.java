@@ -49,12 +49,8 @@ public class ReviewController {
         Review newReview = reviewFormToReview(form, userDetails);
         Review saved = reviewService.save(newReview);
 
-        //TODO: update score of unit
-        Unit unit = unitService.findById(saved.getUnit().getId()).get();
-        List<Review> reviews = unit.getReviews();
-        double newScore = reviews.stream().mapToInt(Review::getScore).sum() / (double) reviews.size();
-        unit.setScore(newScore);
-        unitService.save(unit);
+        Unit updatedUnit = unitService.updateScoreById(form.getUnit_id());
+        saved.setUnit(updatedUnit);
 
         ReviewModel result = new ReviewModel(saved);
         return ok(result);
