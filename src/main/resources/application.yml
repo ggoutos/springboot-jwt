@@ -48,4 +48,4 @@ logging:
     org.springframework.web: INFO
     org.springframework.security: DEBUG
     com.example: DEBUG
-  file: app.log
+  file: logs\app.log
