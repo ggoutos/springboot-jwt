@@ -27,7 +27,6 @@ public class Review implements Serializable {
     private User user;
 
     @ManyToOne(optional = false)
-    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "unit_id", referencedColumnName = "id")
     private Unit unit;
 

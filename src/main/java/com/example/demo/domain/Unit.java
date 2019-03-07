@@ -40,8 +40,7 @@ public class Unit implements Serializable {
     @Column
     private double score;
 
-    @OneToMany(mappedBy = "unit", cascade = CascadeType.REMOVE, targetEntity = Review.class, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "unit", cascade = CascadeType.REMOVE, targetEntity = Review.class, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Review> reviews;
 

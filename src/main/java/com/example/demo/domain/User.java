@@ -1,8 +1,6 @@
 package com.example.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,13 +28,11 @@ public class User implements UserDetails {
     @NotEmpty
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, targetEntity = Review.class, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, targetEntity = Review.class, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Review> reviews;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
+    @ElementCollection(fetch = FetchType.LAZY)
     @JsonIgnore
     private List<String> roles = new ArrayList<>();
 

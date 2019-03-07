@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -39,6 +40,7 @@ public class ReviewController {
         return RestResponseBuilder.build(reviewModelList);
     }
 
+    @Transactional
     @PostMapping("/save")
     public ResponseEntity<ReviewModel> save(@Valid @RequestBody ReviewForm form,
                                             @AuthenticationPrincipal UserDetails userDetails) {
