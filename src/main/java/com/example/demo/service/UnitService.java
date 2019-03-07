@@ -29,10 +29,6 @@ public class UnitService {
         return unitRepository.findById(unit_id);
     }
 
-    public Unit save(Unit unit) {
-        return unitRepository.save(unit);
-    }
-
     public Unit updateScoreByReview(Review review) {
         Unit unit = review.getUnit();
         List<Review> reviews = unit.getReviews();

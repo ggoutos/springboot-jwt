@@ -5,7 +5,6 @@ import com.example.demo.domain.Unit;
 import com.example.demo.domain.User;
 import com.example.demo.model.ReviewForm;
 import com.example.demo.model.ReviewModel;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ReviewService;
 import com.example.demo.service.UnitService;
 import com.example.demo.utils.ModelMapper;
@@ -20,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 import static com.example.demo.utils.Messages.*;
 import static org.springframework.http.ResponseEntity.ok;
@@ -34,9 +32,6 @@ public class ReviewController {
 
     @Autowired
     UnitService unitService;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @GetMapping("")
     public ResponseEntity all() {
